@@ -9,7 +9,7 @@ To set up the Python environment and run the project, issue the following comman
     source cfc_project/bin/activate (for bash/zsh, or:)
     C:\> cfc_project\Scripts\activate.bat (for cmd.exe)
     ``` 
-see [python3 official venv]: https://docs.python.org/3/library/venv.html for commands for other shells.
+see [python3 official venv](https://docs.python.org/3/library/venv.html) for commands for other shells.
 
 
 2. Install the Python dependencies from `requirements.txt`:
