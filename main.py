@@ -1,3 +1,4 @@
+import json
 import warnings
 from lxml import html 
 import requests
@@ -51,7 +52,6 @@ def get_resources(url: str) -> list:
 
 
 if __name__ == '__main__':
-    warnings.filterwarnings(action="ignore", message="unclosed", category=ResourceWarning)
 
     url = "https://www.cfcunderwriting.com/"
 
@@ -62,7 +62,8 @@ if __name__ == '__main__':
     ext_resources = deepcopy(get_resources(url))
     Path("./output").mkdir(parents=True, exist_ok=True)
     with open('output/ext_resources.json', 'w') as file:
-        for r in ext_resources:
-            file.write(f'{r}\n')
+        # for r in ext_resources:
+        r = json.dumps(f'ext_resources')
+        file.write(f'{r}\n')
     
     # Task 3: 
