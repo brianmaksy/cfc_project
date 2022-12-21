@@ -1,2 +1,4 @@
 cfc_project
 tests/__pycache__
+__pycache__
+.mypy_cache

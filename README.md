@@ -28,3 +28,4 @@ Given more time, I would further improve the following points:
 - Higher test coverage 
 - Task 2 sometimes returns segmentation fault on local machine. To debug the problem with gdb. Seg fault possibly related to the point below - 
 - Use a Session object to wrap the tests using requests (cf. https://stackoverflow.com/questions/48160728/resourcewarning-unclosed-socket-in-python-3-unit-test)
+- Cosmetics: remove links of '#' from task 3. More readable json outputs including newlines. 
