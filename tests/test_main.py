@@ -1,16 +1,24 @@
 
 import re
 import unittest
+import warnings
 
-from lxml import html 
-from main import get_tree, request_page
+
+
+from lxml import html
+import requests 
+from main import get_resources, get_tree, request_page
 
 
 
 class TestScrape(unittest.TestCase):
 
+    def setUp(self):
+        '''See README.md remark on this.'''
+        warnings.simplefilter('ignore', category=ResourceWarning)
+        
     def test_get_index_webpage(self):
-        index_url = "https://www.cfcunderwriting.com/en-gb/"
+        index_url = "https://www.cfcunderwriting.com/"
         r = request_page(index_url)
         tree = get_tree(r)
         
@@ -18,8 +26,8 @@ class TestScrape(unittest.TestCase):
         self.assertEqual(type(tree), html.HtmlElement)
 
     def test_get_externally_loaded_resources(self):
-        ext_resources = ['test']
-        presence_of_cfc_domain = all(['cfcunderwriting' not in resource for resource in ext_resources])
+        ext_resources = get_resources("https://www.cfcunderwriting.com/")
+        presence_of_cfc_domain = all(['https://www.cfcunderwriting' not in resource for resource in ext_resources])
         self.assertTrue(presence_of_cfc_domain)
         
 

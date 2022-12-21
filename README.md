@@ -21,3 +21,10 @@ see [python3 official venv](https://docs.python.org/3/library/venv.html) for com
     ```
     python -m unittest tests/test_main.py
     ```
+
+## Remarks 
+
+Given more time, I would further improve the following points:
+- Higher test coverage 
+- Task 2 sometimes returns segmentation fault with deepcopy(). To debug the problem with gdb. 
+- Use a Session object to wrap the tests using requests (cf. https://stackoverflow.com/questions/48160728/resourcewarning-unclosed-socket-in-python-3-unit-test)
