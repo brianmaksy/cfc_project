@@ -119,6 +119,7 @@ if __name__ == '__main__':
     # TASK 1: Scrape the index webpage hosted at `cfcunderwriting.com`
     tree = get_page_html(url)
 
+
     # TASK 2: Write a list of *all externally loaded resources* (e.g. images/scripts/fonts not hosted on cfcunderwriting.com) to a JSON output file.
     ext_resources = get_resources(url)
     Path("./output").mkdir(parents=True, exist_ok=True)
@@ -126,13 +127,14 @@ if __name__ == '__main__':
         r = json.dumps(ext_resources)
         file.write(f'{r}\n')
     
+
     # TASK 3: Enumerates the page's hyperlinks and identifies the location of the "Privacy Policy" page
     links, privacy_policy_rel_link = get_hyperlinks_and_identify_privacy_policy_location(tree) # Tree from task 1
     with open('output/hyperlinks.txt', 'w') as file: 
         for i, link in enumerate(links): 
             file.write(f'{i} {link}\n')
     privacy_policy_link = url + privacy_policy_rel_link
-    print(privacy_policy_link)
+    
 
     # TASK 4: Use the privacy policy URL identified in step 3 and scrape the pages content. 
     # Produce a case-insensitive word frequency count for all of the visible text on the page.
