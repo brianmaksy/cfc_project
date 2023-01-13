@@ -3,10 +3,7 @@ import re
 from typing import Tuple
 from lxml import html 
 import requests
-from urllib.parse import urlparse
 from pathlib import Path
-from seleniumwire import webdriver
-from selenium.webdriver.chrome.options import Options
 
 
 def request_page(url: str) -> requests.models.Response: 
@@ -29,24 +26,17 @@ def get_page_html(url: str) -> html.HtmlElement:
 
 def get_resources(url: str) -> list:
     '''
-    This function makes use of the selenium wire module (https://pypi.org/project/selenium-wire/).
-    The module extends Selenium's Python bindings to grant access to underlying requests made by the browser.
-    The function is largely an adapation of an answer from this page: https://stackoverflow.com/questions/69582773/get-all-loaded-website-resources-with-selenium
+    This function gets resources not in the cfc domain, 
+    taking Mozilla's definition of an external resource to be those wrapped <link> tags: 
+    https://developer.mozilla.org/en-US/docs/Web/HTML/Element/link
+
     '''
-    chrome_options = Options()
-    chrome_options.add_argument('--headless')
-    driver = webdriver.Chrome(options=chrome_options)
-    resources = []
+    tree = get_page_html(url)
+    link_tag_elements = tree.xpath('.//link') 
+    resources = [t.xpath('.//@href')[0] for t in link_tag_elements]
+    resources_not_cfc = [r for r in resources if 'www.cfcunderwriting.com' not in r]
 
-    driver.get(url)
-
-    for request in driver.requests:
-        if 'cfcunderwriting.com' not in urlparse(request.url).netloc:
-            resources.append(request.url)
-
-    driver.close()
-
-    return resources
+    return resources_not_cfc
 
 
 def get_text_from_xml_element(e: html.HtmlElement) -> str:
@@ -133,7 +123,7 @@ if __name__ == '__main__':
     ext_resources = get_resources(url)
     Path("./output").mkdir(parents=True, exist_ok=True)
     with open('output/ext_resources.json', 'w') as file:
-        r = json.dumps(f'ext_resources')
+        r = json.dumps(ext_resources)
         file.write(f'{r}\n')
     
     # TASK 3: Enumerates the page's hyperlinks and identifies the location of the "Privacy Policy" page

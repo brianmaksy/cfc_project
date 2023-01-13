@@ -28,6 +28,11 @@ class TestScrape(unittest.TestCase):
     def test_get_externally_loaded_resources(self):
         '''Test for Task 2.'''
         ext_resources = get_resources(self.index_url)
+        # Make sure test covers presence of domains (catches original mistake of writing a string literally called 'ext_resources')
+        presence_of_domain = all(['/' in resource for resource in ext_resources])
+        self.assertTrue(presence_of_domain)
+
+        # Test absence of cfc domain in each resource
         presence_of_cfc_domain = all([self.index_url not in resource for resource in ext_resources])
         self.assertTrue(presence_of_cfc_domain)
         
